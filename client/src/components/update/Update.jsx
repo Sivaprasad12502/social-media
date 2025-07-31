@@ -1,9 +1,70 @@
-import React from 'react'
+import { useState } from "react";
+import "./update.scss";
+import { makeRequest } from "../../axios";
+import { useQuery,useMutation,useQueryClient } from "@tanstack/react-query";
 
-const Update = () => {
+const Update = ({ setOpenUpdate,user }) => {
+  const [cover, setCover] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [texts, setTexts] = useState({
+    name: "",
+    city: "",
+    website: "",
+  });
+  const handleChange = (e) => {
+    setTexts((prev) => ({ ...prev, [e.target.name]: [e.target.value] }));
+  };
+
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await makeRequest.post("/upload", formData);
+      return res.data;
+    } catch (error) {
+      console.log("foront", error.message);
+    }
+  };
+  const query = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (user) => {
+      return makeRequest.put("/users", user);
+    },
+    onSuccess: () => {
+      query.invalidateQueries({
+        queryKey: ["user"],
+      });
+      console.log("project added");
+    },
+    onError: (error) => {
+      console.error("Error adding post:", error.message);
+    },
+  });
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    let coverUrl = user.coverPic;
+    let profileUrl = user.profilePic;
+    coverUrl=cover&&await upload(cover)
+    profileUrl=profile&&await upload(profile)
+   
+
+    mutation.mutate({...texts,coverPic:coverUrl,profilePic:profileUrl});
+    setOpenUpdate(false)
+  };
   return (
-    <div>Update</div>
-  )
-}
+    <div className="update">
+      <form action="">
+        <input type="file" />
+        <input type="file" />
+        <input type="text" name="name" onChange={handleChange} />
+        <input type="text" name="city" onChange={handleChange} />
+        <input type="text" name="website" onChange={handleChange} />
+        <button onClick={handleClick}>Update</button>
+      </form>
+      <button onClick={() => setOpenUpdate(false)}>X</button>
+    </div>
+  );
+};
 
-export default Update
+export default Update;

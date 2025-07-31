@@ -1,6 +1,5 @@
 import express from "express";
 const app = express();
-import dotenv from 'dotenv'
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/post.js";
@@ -10,7 +9,7 @@ import relationShipRoutes from './routes/relationship.js'
 import cors from "cors";
 import multer from "multer";
 import cookieParser from "cookie-parser";
-dotenv.config()
+
 //middlewares
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);

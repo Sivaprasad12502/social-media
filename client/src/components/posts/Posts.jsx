@@ -11,6 +11,7 @@ export const Posts = ({userId}) => {
   if(error){
     console.log(error)
   }
+  console.log(userId)
 
   return (
     <div className="posts">
