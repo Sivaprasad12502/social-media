@@ -54,6 +54,8 @@ const Profile = () => {
   const handleFollow = () => {
     mutation.mutate(relationshipData.includes(currentUser.id));
   };
+  console.log(currentUser)
+  console.log(data)
 
   return (
     <div className="profile">
@@ -62,8 +64,9 @@ const Profile = () => {
       ) : (
         <>
           <div className="images">
-            <img src={data?.coverPic} alt="" className="cover" />
-            <img src={data?.profilePic} alt="" className="profilePic" />
+            <img src={"http://localhost:800/upload/"+data.coverPi} alt="" className="cover" />
+            <img src={"http://localhost:800/upload/"+data.profilePic} alt="" className="profilePic" />
+           
           </div>
           <div className="profileContainer">
             <div className="uInfo">
@@ -96,7 +99,7 @@ const Profile = () => {
                     <span>{data?.website}</span>
                   </div>
                 </div>
-                {isLoading ? (
+                {relationShipIsLoading ? (
                   "Loading"
                 ) : userId === currentUser.id ? (
                   <button onClick={()=>setOpenUpdate(true)}>update</button>

@@ -5,13 +5,14 @@ import { AuthContext } from "../../context/authContext";
 
 const LeftBar = () => {
   const {currentUser}=useContext(AuthContext)
+  console.log(currentUser)
   return (
     <div className="leftbar">
       <div className="container">
         <div className="menu">
           <div className="user">
             <img
-              src={currentUser.profilePic}
+              src={"http://localhost:800/upload/" + currentUser.profilePic}
               alt=""
             />
             <span>{currentUser.name}</span>

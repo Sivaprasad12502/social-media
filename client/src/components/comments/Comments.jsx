@@ -4,10 +4,10 @@ import { AuthContext } from "../../context/authContext";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import moment from "moment";
-import { useMutation,useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Comments = ({ postId }) => {
-  const [desc,setDesc]=useState("")
+  const [desc, setDesc] = useState("");
   const { currentUser } = useContext(AuthContext);
 
   const { isLoading, error, data } = useQuery({
@@ -33,16 +33,22 @@ const Comments = ({ postId }) => {
   const handleClick = async (e) => {
     e.preventDefault();
 
-    mutation.mutate({ desc,postId});
-    setDesc("")
-   
+    mutation.mutate({ desc, postId });
+    setDesc("");
   };
   console.log(data);
   return (
     <div className="comments">
       <div className="write">
-        <img src={currentUser.profilePic} alt="" />
-        <input type="text" placeholder="write a comment" onChange={e=>setDesc(e.target.value)}/>
+        <img
+          src={"http://localhost:800/upload/" + currentUser.profilePic}
+          alt=""
+        />
+        <input
+          type="text"
+          placeholder="write a comment"
+          onChange={(e) => setDesc(e.target.value)}
+        />
         <button onClick={handleClick}>Send</button>
       </div>
       {isLoading
